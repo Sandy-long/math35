@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>应用题综合：纳税、最优方案与变速行程</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 8px;
+        }
+        h2 {
+            color: #2980b9;
+            margin-top: 30px;
+            border-left: 4px solid #3498db;
+            padding-left: 10px;
+        }
+        h3 {
+            color: #16a085;
+            margin-top: 20px;
+        }
+        .section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .method {
+            background-color: #f1f9fe;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+        }
+        .method-title {
+            font-weight: bold;
+            color: #2980b9;
+            margin-bottom: 10px;
+        }
+        .question {
+            font-weight: bold;
+            margin: 20px 0 10px;
+            color: #e74c3c;
+        }
+        .answer {
+            color: #27ae60;
+            margin-left: 20px;
+            padding-left: 10px;
+            border-left: 2px solid #2ecc71;
+        }
+        
+        /* 纳税动画 */
+        .tax-animation {
+            width: 100%;
+            height: 200px;
+            position: relative;
+            margin: 20px auto;
+            background-color: #f5f7fa;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .money-bag {
+            width: 100px;
+            height: 100px;
+            background-color: #f1c40f;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            color: #333;
+            animation: moneyShake 2s infinite;
+        }
+        .tax-rate {
+            position: absolute;
+            bottom: -30px;
+            font-size: 16px;
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        @keyframes moneyShake {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-5px) rotate(2deg); }
+            50% { transform: translateY(0) rotate(0deg); }
+            75% { transform: translateY(-5px) rotate(-2deg); }
+        }
+        
+        /* 最优方案动画 */
+        .choice-animation {
+            width: 100%;
+            height: 200px;
+            position: relative;
+            margin: 20px auto;
+            background-color: #f5f7fa;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .option {
+            width: 80px;
+            height: 80px;
+            border-radius: 10px;
+            background-color: #2ecc71;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            position: relative;
+            animation: optionPulse 2s infinite;
+        }
+        .option:nth-child(2) {
+            background-color: #3498db;
+            animation-delay: 0.5s;
+        }
+        .option-value {
+            position: absolute;
+            bottom: -25px;
+            font-size: 14px;
+            color: #333;
+        }
+        @keyframes optionPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        /* 变速行程动画 */
+        .speed-animation {
+            width: 100%;
+            height: 200px;
+            position: relative;
+            margin: 20px auto;
+            background-color: #f5f7fa;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .road {
+            width: 80%;
+            height: 20px;
+            background-color: #95a5a6;
+            position: absolute;
+            top: 50%;
+            left: 10%;
+            transform: translateY(-50%);
+            border-radius: 10px;
+        }
+        .car {
+            width: 40px;
+            height: 20px;
+            background-color: #e74c3c;
+            border-radius: 5px;
+            position: absolute;
+            top: 50%;
+            left: 10%;
+            transform: translateY(-50%);
+            animation: carMove 6s infinite;
+        }
+        .speed-indicator {
+            position: absolute;
+            top: 30px;
+            left: 10%;
+            font-size: 12px;
+            color: #333;
+        }
+        @keyframes carMove {
+            0% { left: 10%; background-color: #e74c3c; }
+            33% { left: 50%; background-color: #e74c3c; }
+            34% { background-color: #3498db; }
+            100% { left: 90%; background-color: #3498db; }
+        }
+    </style>
+</head>
+<body>
+    <h1>趣味数学35</h1>
+    <h2>应用题综合</h2>
+    <h3>1. 纳税问题</h3>
+    
+    <div class="section">
+        <div class="tax-animation">
+            <div class="money-bag">
+                ¥10000
+                <div class="tax-rate">税率10%</div>
+            </div>
+        </div>
+        
+        <div class="method">
+            <p><strong>运算法则：</strong></p>
+            <ul>
+                <li>根据收入和税率计算应缴纳的税额</li>
+                <li>税额 = 收入 × 税率（分阶段累进税率另计）</li>
+            </ul>
+        </div>
+        
+        <div class="question">收入10000元，税率10%，税额是多少？</div>
+        <div class="answer">1000元</div>
+        
+        <div class="question"> 收入12000元，税率为10%（前10000元）和15%（超出部分），税额是多少？</div>
+        <div class="answer">1300元</div>
+        
+        <div class="question">某公司月收入80000元，采用阶梯税率：
+
+前20000元：5%，
+20001-50000元：12%，
+超过50000元部分：25%。
+计算当月应缴税额，并说明哪部分收入税率最高。</div>
+        <div class="answer">应缴税额：12100元；
+税率最高的部分：超过50000元的收入部分（25%）</div>
+    </div>
+    
+    <h3>2. 最优方案</h3>
+    
+    <div class="section">
+        <div class="choice-animation">
+            <div class="option">
+                A
+                <div class="option-value">利润500元</div>
+            </div>
+            <div class="option">
+                B
+                <div class="option-value">利润700元</div>
+            </div>
+        </div>
+        
+        <div class="method">
+            <p><strong>运算法则：</strong></p>
+            <ul>
+                <li>根据题目条件，计算不同方案的结果，选择最优</li>
+                <li>包括利润最大、成本最低、时间最短等</li>
+            </ul>
+        </div>
+        
+        <div class="question">A方案利润500元，B方案利润700元，哪种更优？</div>
+        <div class="answer">B方案</div>
+        
+        <div class="question">产品现行方案：成本80元，售价120元，
+改进方案：成本降至60元，但售价需降为110元。
+哪个方案利润更高？</div>
+        <div class="answer">改进方案</div>
+        
+        <div class="question">快递站有两个选址方案：
+
+<br>方案M：
+月租金5000元，
+平均配送时间30分钟/件，
+预计月均3000件
+<br>方案N：
+月租金8000元，
+平均配送时间20分钟/件，
+预计月均4000件
+<br>已知：
+每件配送费收入5元，
+人工成本30元/小时，
+应如何选择？</div>
+        <div class="answer">方案N亏损较少</div>
+    </div>
+    
+    <h2>变速行程问题</h2>
+    
+    <div class="section">
+        <h3>中途变速</h3>
+        
+        <div class="speed-animation">
+            <div class="road"></div>
+            <div class="car"></div>
+            <div class="speed-indicator">速度变化：60km/h → 40km/h</div>
+        </div>
+        
+        <div class="method">
+            <p><strong>运算法则：</strong></p>
+            <ul>
+                <li>分段计算时间，总时间为各段时间之和</li>
+                <li>速度变化时，时间=距离÷速度</li>
+            </ul>
+        </div>
+        
+        <div class="question">小明骑自行车去公园，全程30公里，速度保持15km/h，需要多少时间？</div>
+        <div class="answer">2h</div>
+        
+        <div class="question">火车前半程（150km）速度为100km/h，后半程速度为120km/h，总行驶时间是多少？</div>
+        <div class="answer">2.75h</div>
+        
+        <div class="question">紧急运输任务：
+
+前1/4路程限速60km/h，
+中间1/2路程需保持90km/h，
+最后1/4路程因堵车只能开30km/h。
+若总路程240公里：
+各段行驶时间，
+能否在3.5小时内完成？</div>
+        <div class="answer">各段时间：1小时、1小时20分钟、2小时<br>
+​​不能​​在3.5小时内完成（实际需4小时20分钟，超时50分钟）</div>
+    </div>
+</body>
+</html>
