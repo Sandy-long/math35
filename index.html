@@ -45,21 +45,49 @@
             margin-bottom: 20px;
             border-left: 4px solid #3498db;
         }
-        .method-title {
-            font-weight: bold;
-            color: #2980b9;
-            margin-bottom: 10px;
-        }
         .question {
             font-weight: bold;
             margin: 20px 0 10px;
             color: #e74c3c;
         }
+        .answer-container {
+            background: linear-gradient(135deg, #f0fff4 0%, #e6fffa 100%);
+            border: 1px solid #d1fae5;
+            border-radius: 8px;
+            padding: 5px 15px;
+            margin: 15px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .answer-container:hover {
+            background: linear-gradient(135deg, #dcffe4 0%, #c6f6d5 100%);
+            transform: translateX(5px);
+        }
+        .answer-prompt {
+            color: #10b981;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+        }
+        .answer-prompt:before {
+            content: "✨";
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
         .answer {
-            color: #27ae60;
+            color: #0f9d58;
             margin-left: 20px;
-            padding-left: 10px;
-            border-left: 2px solid #2ecc71;
+            padding: 10px 15px;
+            background-color: rgba(16, 185, 129, 0.1);
+            border-left: 3px solid #10b981;
+            border-radius: 0 8px 8px 0;
+            display: none;
+            font-weight: bold;
+            animation: fadeIn 0.5s ease;
+        }
+        .show-answer .answer {
+            display: block;
         }
         
         /* 纳税动画 */
@@ -190,14 +218,21 @@
             34% { background-color: #3498db; }
             100% { left: 90%; background-color: #3498db; }
         }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body>
     <h1>趣味数学35</h1>
+    
     <h2>应用题综合</h2>
-    <h3>1. 纳税问题</h3>
     
     <div class="section">
+        <h3>1. 纳税问题</h3>
+        
         <div class="tax-animation">
             <div class="money-bag">
                 ¥10000
@@ -214,24 +249,32 @@
         </div>
         
         <div class="question">收入10000元，税率10%，税额是多少？</div>
-        <div class="answer">1000元</div>
+        <div class="answer-container">
+            <div class="answer-prompt">点击显示答案</div>
+            <div class="answer">1000元</div>
+        </div>
         
-        <div class="question"> 收入12000元，税率为10%（前10000元）和15%（超出部分），税额是多少？</div>
-        <div class="answer">1300元</div>
+        <div class="question">收入12000元，税率为10%（前10000元）和15%（超出部分），税额是多少？</div>
+        <div class="answer-container">
+            <div class="answer-prompt">点击显示答案</div>
+            <div class="answer">1300元（10000×10% + 2000×15%）</div>
+        </div>
         
         <div class="question">某公司月收入80000元，采用阶梯税率：
-
 前20000元：5%，
 20001-50000元：12%，
 超过50000元部分：25%。
 计算当月应缴税额，并说明哪部分收入税率最高。</div>
-        <div class="answer">应缴税额：12100元；
+        <div class="answer-container">
+            <div class="answer-prompt">点击显示答案</div>
+            <div class="answer">应缴税额：12100元（20000×5% + 30000×12% + 30000×25%）；
 税率最高的部分：超过50000元的收入部分（25%）</div>
+        </div>
     </div>
     
-    <h3>2. 最优方案</h3>
-    
     <div class="section">
+        <h3>2. 最优方案</h3>
+        
         <div class="choice-animation">
             <div class="option">
                 A
@@ -252,34 +295,44 @@
         </div>
         
         <div class="question">A方案利润500元，B方案利润700元，哪种更优？</div>
-        <div class="answer">B方案</div>
+        <div class="answer-container">
+            <div class="answer-prompt">点击显示答案</div>
+            <div class="answer">B方案</div>
+        </div>
         
         <div class="question">产品现行方案：成本80元，售价120元，
 改进方案：成本降至60元，但售价需降为110元。
 哪个方案利润更高？</div>
-        <div class="answer">改进方案</div>
+        <div class="answer-container">
+            <div class="answer-prompt">点击显示答案</div>
+            <div class="answer">改进方案（现行利润40元，改进利润50元）</div>
+        </div>
         
         <div class="question">快递站有两个选址方案：
-
-<br>方案M：
+方案M：
 月租金5000元，
 平均配送时间30分钟/件，
 预计月均3000件
-<br>方案N：
+方案N：
 月租金8000元，
 平均配送时间20分钟/件，
 预计月均4000件
-<br>已知：
+已知：
 每件配送费收入5元，
 人工成本30元/小时，
 应如何选择？</div>
-        <div class="answer">方案N亏损较少</div>
+        <div class="answer-container">
+            <div class="answer-prompt">点击显示答案</div>
+            <div class="answer">方案M利润：3000×5 - 5000 - (3000×0.5×30) = -35000元
+方案N利润：4000×5 - 8000 - (4000×0.33×30) = -27600元
+选择方案N（亏损较少）</div>
+        </div>
     </div>
     
     <h2>变速行程问题</h2>
     
     <div class="section">
-        <h3>中途变速</h3>
+        <h3>1. 中途变速</h3>
         
         <div class="speed-animation">
             <div class="road"></div>
@@ -296,21 +349,52 @@
         </div>
         
         <div class="question">小明骑自行车去公园，全程30公里，速度保持15km/h，需要多少时间？</div>
-        <div class="answer">2h</div>
+        <div class="answer-container">
+            <div class="answer-prompt">点击显示答案</div>
+            <div class="answer">2小时</div>
+        </div>
         
         <div class="question">火车前半程（150km）速度为100km/h，后半程速度为120km/h，总行驶时间是多少？</div>
-        <div class="answer">2.75h</div>
+        <div class="answer-container">
+            <div class="answer-prompt">点击显示答案</div>
+            <div class="answer">2.75小时（1.5小时 + 1.25小时）</div>
+        </div>
         
         <div class="question">紧急运输任务：
-
 前1/4路程限速60km/h，
 中间1/2路程需保持90km/h，
 最后1/4路程因堵车只能开30km/h。
 若总路程240公里：
 各段行驶时间，
 能否在3.5小时内完成？</div>
-        <div class="answer">各段时间：1小时、1小时20分钟、2小时<br>
-​​不能​​在3.5小时内完成（实际需4小时20分钟，超时50分钟）</div>
+        <div class="answer-container">
+            <div class="answer-prompt">点击显示答案</div>
+            <div class="answer">各段时间：1小时（60km）、1小时20分钟（120km）、2小时（60km）
+总时间：4小时20分钟，不能按时完成（超时50分钟）</div>
+        </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 点击显示答案功能
+            document.body.addEventListener('click', function(e) {
+                const container = e.target.closest('.answer-container');
+                if(container) {
+                    container.classList.toggle('show-answer');
+                }
+            });
+            
+            // 动画效果
+            const options = document.querySelectorAll('.option');
+            let currentOption = 0;
+            setInterval(() => {
+                options[currentOption].style.animation = 'none';
+                setTimeout(() => {
+                    options[currentOption].style.animation = 'optionPulse 2s infinite';
+                }, 10);
+                currentOption = (currentOption + 1) % options.length;
+            }, 2000);
+        });
+    </script>
 </body>
 </html>
